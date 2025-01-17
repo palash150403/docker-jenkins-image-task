@@ -14,7 +14,7 @@ pipeline {
         stage ("docker build") {
             steps {
                 script {
-                sh "docker build --build-arg TOOLS=${params.CHOICE} -t ${IMAGE_NAME}"
+                sh "docker build --build-arg TOOLS=${params.CHOICE} -t ${IMAGE_NAME} . "
                 }
             }
         }
