@@ -12,17 +12,21 @@ pipeline {
 
     stages {
         stage ("docker build") {
-            script {
+            steps {
+                script {
                 sh "docker build --build-arg TOOLS=${params.CHOICE} -t ${IMAGE_NAME}"
+                }
             }
         }
 
         stage ("Push to Registory") {
-            script {
+            steps {
+                script {
                 withCredentials([string(credentialsId: 'docker-password', variable: 'DOCKER_PASS')])
                 sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${DOCKER_REGISTRY}"
                 sh "docker tag ${IMAGE_NAME} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
                 sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
+                }
             }
         }
     }
